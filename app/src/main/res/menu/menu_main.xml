@@ -16,7 +16,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_blue"
-        android:title="@string/blue"
+        android:title="@string/value"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_cyan"
@@ -24,7 +24,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_green"
-        android:title="@string/green"
+        android:title="@string/saturation"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_magenta"
@@ -32,7 +32,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_red"
-        android:title="@string/red"
+        android:title="@string/hue"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_yellow"

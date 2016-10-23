@@ -1,35 +1,21 @@
 package mad9132.rgba;
-
+import android.app.DialogFragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Observable;
 import java.util.Observer;
-
 import model.RGBAModel;
-
-/**
- * The Controller for RGBAModel.
- *
- * As the Controller:
- *   a) event handler for the View
- *   b) observer of the Model (RGBAModel)
- *
- * Features the Update / React Strategy.
- *
- * @author Gerald.Hurdle@AlgonquinCollege.com
- * @version 1.0
- */
 public class MainActivity extends AppCompatActivity implements Observer
                                                             , SeekBar.OnSeekBarChangeListener
 {
-    // CLASS VARIABLES
     private static final String ABOUT_DIALOG_TAG = "About";
     private static final String LOG_TAG          = "RGBA";
 
@@ -38,59 +24,42 @@ public class MainActivity extends AppCompatActivity implements Observer
     private AboutDialogFragment mAboutDialog;
     private TextView            mColorSwatch;
     private RGBAModel           mModel;
-    private SeekBar             mRedSB;
-    private SeekBar             mGreenSB;
-    private SeekBar             mBlueSB;
-    private SeekBar             mAlphaSB;
-    //TODO: declare private members for mGreenSB, mBlueSB, and mAlphaSB
+    private SeekBar             mHueSB;
+    private SeekBar             mSatSB;
+    private SeekBar             mValSB;
+    private TextView            mHueText;
+    private TextView            mSatText;
+    private TextView            mValText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Instantiate a new AboutDialogFragment()
-        // but do not show it (yet)
         mAboutDialog = new AboutDialogFragment();
-
-        // Instantiate a new RGBA model
-        // Initialize the model red (max), green (min), blue (min), and alpha (max)
         mModel = new RGBAModel();
-        mModel.setRed( RGBAModel.MAX_RGB );
-        mModel.setGreen( RGBAModel.MIN_RGB );
-        mModel.setBlue( RGBAModel.MIN_RGB );
-        mModel.setAlpha( RGBAModel.MAX_ALPHA );
-        // The Model is observing this Controller (class MainActivity implements Observer)
+        mModel.setHue( RGBAModel.MAX_HUE );
+        mModel.setSaturation( RGBAModel.MAX_SAT );
+        mModel.setValue( RGBAModel.MAX_VAL );
         mModel.addObserver( this );
-
-        // reference each View
         mColorSwatch = (TextView) findViewById( R.id.colorSwatch );
-        mRedSB = (SeekBar) findViewById( R.id.redSB );
-        mGreenSB = (SeekBar) findViewById( R.id.greenSB );
-        mBlueSB = (SeekBar) findViewById( R.id.blueSB );
-        mAlphaSB = (SeekBar) findViewById( R.id.alphaSB );
-        //TODO: reference the remaining <SeekBar>s: green, blue and alpha
-
-        // set the domain (i.e. max) for each component
-        mRedSB.setMax( RGBAModel.MAX_RGB );
-        mGreenSB.setMax( RGBAModel.MAX_RGB );
-        mBlueSB.setMax( RGBAModel.MAX_RGB );
-        mAlphaSB.setMax( RGBAModel.MAX_RGB );
-        //TODO: setMax() for the remaining <SeekBar>s: green, blue and alpha
-
-        // register the event handler for each <SeekBar>
-        mRedSB.setOnSeekBarChangeListener( this );
-        mGreenSB.setOnSeekBarChangeListener( this );
-        mBlueSB.setOnSeekBarChangeListener( this );
-        mAlphaSB.setOnSeekBarChangeListener( this );
-        //TODO: register the remaining <SeekBar>s: green, blue and alpha
-
-        // initialize the View to the values of the Model
+        mHueSB = (SeekBar) findViewById( R.id.redSB );
+        mSatSB = (SeekBar) findViewById( R.id.greenSB );
+        mValSB = (SeekBar) findViewById( R.id.blueSB );
+        mHueSB.setMax( RGBAModel.MAX_HUE );
+        mSatSB.setMax( RGBAModel.MAX_SAT );
+        mValSB.setMax( RGBAModel.MAX_VAL );
+        mHueText = (TextView) findViewById(R.id.hueMain);
+        mSatText = (TextView) findViewById(R.id.satMain);
+        mValText = (TextView) findViewById(R.id.valMain);
+        mHueSB.setOnSeekBarChangeListener( this );
+        mSatSB.setOnSeekBarChangeListener( this );
+        mValSB.setOnSeekBarChangeListener( this );
         this.updateView();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -98,52 +67,102 @@ public class MainActivity extends AppCompatActivity implements Observer
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch ( item.getItemId() ) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-            case R.id.action_about:
-                mAboutDialog.show( getFragmentManager(), ABOUT_DIALOG_TAG );
-                return true;
+        if (id == R.id.action_about) {
+            DialogFragment newFragment = new AboutDialogFragment();
+            newFragment.show(getFragmentManager(), ABOUT_DIALOG_TAG);
+            return true;
+        }
 
-            case R.id.action_red:
-                mModel.asRed();
-                return true;
+        return super.onOptionsItemSelected(item);
+    }
 
-            case R.id.action_green:
-                mModel.asGreen();
-                return true;
+    public void OnButtonClick(View view)
+    {
 
-            case R.id.action_blue:
-                mModel.asBlue();
-                return true;
+        switch (view.getId())
+        {
 
-            case R.id.action_black:
+            case R.id.Black:
+                Log.d("Pressed?", "You bet");
+                Toast.makeText(this,"Black", Toast.LENGTH_LONG).show();
                 mModel.asBlack();
-                return true;
+                break;
 
-            case R.id.action_cyan:
-                mModel.asCyan();
-                return true;
+            case R.id.Red:
+                Toast.makeText(this,"Red", Toast.LENGTH_LONG).show();
+                mModel.asRed();
+                break;
 
-            case R.id.action_magenta:
-                mModel.asMagenta();
-                return true;
+            case R.id.Lime:
+                Toast.makeText(this,"Lime", Toast.LENGTH_LONG).show();
+                mModel.asLime();
+                break;
 
-            case R.id.action_white:
-                mModel.asWhite();
-                return true;
+            case R.id.Blue:
+                Toast.makeText(this,"Blue", Toast.LENGTH_LONG).show();
+                mModel.asBlue();
+                break;
 
-            case R.id.action_yellow:
+            case R.id.Yellow:
+                Toast.makeText(this,"Yellow", Toast.LENGTH_LONG).show();
                 mModel.asYellow();
-                return true;
+                break;
 
+            case R.id.Cyan:
+                Toast.makeText(this,"Cyan", Toast.LENGTH_LONG).show();
+                mModel.asCyan();
+                break;
 
+            case R.id.Magenta:
+                Toast.makeText(this,"Magenta", Toast.LENGTH_LONG).show();
+                mModel.asMagenta();
+                break;
 
-            //TODO: handle the remaining menu items
+            case R.id.Silver:
+                Toast.makeText(this,"Silver", Toast.LENGTH_LONG).show();
+                mModel.asSilver();
+                break;
 
-            default:
-                Toast.makeText(this, "MenuItem: " + item.getTitle(), Toast.LENGTH_LONG).show();
-                return super.onOptionsItemSelected(item);
+            case R.id.Gray:
+                Toast.makeText(this,"Gray", Toast.LENGTH_LONG).show();
+                mModel.asGray();
+                break;
+
+            case R.id.Maroon:
+                Toast.makeText(this,"Maroon", Toast.LENGTH_LONG).show();
+                mModel.asMaroon();
+                break;
+
+            case R.id.Olive:
+                Toast.makeText(this,"Olive", Toast.LENGTH_LONG).show();
+                mModel.asOlive();
+                break;
+
+            case R.id.Green:
+                Toast.makeText(this,"Green", Toast.LENGTH_LONG).show();
+                mModel.asGreen();
+                break;
+
+            case R.id.Purple:
+                Toast.makeText(this,"Purple", Toast.LENGTH_LONG).show();
+                mModel.asPurple();
+                break;
+
+            case R.id.Teal:
+                Toast.makeText(this,"Teal", Toast.LENGTH_LONG).show();
+                mModel.asTeal();
+                break;
+
+            case R.id.Navy:
+                Toast.makeText(this,"Navy", Toast.LENGTH_LONG).show();
+                mModel.asNavy();
+                break;
+
         }
     }
 
@@ -163,40 +182,35 @@ public class MainActivity extends AppCompatActivity implements Observer
         // Determine which <SeekBark> caused the event (switch + case)
         // GET the SeekBar's progress, and SET the model to it's new value
         switch ( seekBar.getId() ) {
-                case R.id.redSB:
-                mModel.setRed( mRedSB.getProgress() );
+            case R.id.redSB:
+                mModel.setHue( (float) progress );
+                mHueText.setText(getResources().getString(R.string.hue, progress));
                 break;
 
             case R.id.greenSB:
-                mModel.setGreen( mGreenSB.getProgress() );
+                mModel.setHue( (float) progress );
+                mHueText.setText(getResources().getString(R.string.saturation, progress));
                 break;
-
 
             case R.id.blueSB:
-                mModel.setBlue( mBlueSB.getProgress() );
+                mModel.setHue( (float) progress );
+                mHueText.setText(getResources().getString(R.string.value, progress));
                 break;
-
-            case R.id.alphaSB:
-                mModel.setAlpha( mAlphaSB.getProgress() );
-                break;
-
-
-            //TODO: case R.id.greenSB
-
-            //TODO: case R.id.blueSB
-
-            //TODO: case R.id.alphaSB
         }
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        // No-Operation
+
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        // No-Operation
+       switch (seekBar.getId()) {
+           case R.id.redSB:
+               mColorSwatch.setText(getResources().getString(R.string.hue));
+           break;
+       }
     }
 
     // The Model has changed state!
@@ -206,31 +220,18 @@ public class MainActivity extends AppCompatActivity implements Observer
         this.updateView();
     }
 
-    private void updateBlueSB() {
-        mBlueSB.setProgress( mModel.getBlue() );
-    }
-
     private void updateColorSwatch() {
-        mColorSwatch.setBackgroundColor(Color.argb(mModel.getAlpha()
-                                                , mModel.getRed()
-                                                , mModel.getGreen()
-                                                , mModel.getBlue()));
+
+        int Newcolor = Color.HSVToColor(new float[] {
+                mModel.getMaxHue(), mModel.getMaxSat()/100, mModel.getMinVal()/100
+        });
+
+        mColorSwatch.setBackgroundColor( Newcolor );
+
+
     }
 
-    private void updateGreenSB() {
-        mGreenSB.setProgress( mModel.getGreen() );
-    }
-
-    private void updateRedSB() {
-        //GET the model's red value, and SET the red <SeekBar>
-        mRedSB.setProgress( mModel.getRed() );
-    }
-
-    // synchronize each View component with the Model
     public void updateView() {
         this.updateColorSwatch();
-        this.updateRedSB();
-        this.updateGreenSB();
-        this.updateBlueSB();
     }
 }
