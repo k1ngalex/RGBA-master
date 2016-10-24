@@ -13,7 +13,6 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/colorSwatch"
         android:height="200dp"
         android:background="#000"
@@ -98,6 +97,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:width="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,6 +107,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Red"
@@ -115,6 +116,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Lime"
@@ -123,6 +125,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Blue"
@@ -131,6 +134,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Yellow"
@@ -139,6 +143,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Cyan"
@@ -147,6 +152,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Magenta"
@@ -155,6 +161,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Silver"
@@ -163,6 +170,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Gray"
@@ -171,6 +179,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Maroon"
@@ -179,6 +188,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Olive"
@@ -195,6 +205,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Purple"
@@ -203,6 +214,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Teal"
@@ -211,6 +223,7 @@
 
         <Button
             android:text=""
+            android:onClick="OnButtonClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Navy"

@@ -3,7 +3,6 @@ import android.app.DialogFragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +15,8 @@ import model.RGBAModel;
 public class MainActivity extends AppCompatActivity implements Observer
                                                             , SeekBar.OnSeekBarChangeListener
 {
-    private static final String ABOUT_DIALOG_TAG = "About";
-    private static final String LOG_TAG          = "RGBA";
 
-    // INSTANCE VARIABLES
-    // Pro-tip: different naming style; the 'm' means 'member'
+   //setting varibles
     private AboutDialogFragment mAboutDialog;
     private TextView            mColorSwatch;
     private RGBAModel           mModel;
@@ -30,7 +26,9 @@ public class MainActivity extends AppCompatActivity implements Observer
     private TextView            mHueText;
     private TextView            mSatText;
     private TextView            mValText;
+    private static final String ABOUT_DIALOG_TAG = "About";
 
+    //giving IDs names
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements Observer
         {
 
             case R.id.Black:
-                Log.d("Pressed?", "You bet");
                 Toast.makeText(this,"Black", Toast.LENGTH_LONG).show();
                 mModel.asBlack();
                 break;
@@ -233,5 +230,6 @@ public class MainActivity extends AppCompatActivity implements Observer
 
     public void updateView() {
         this.updateColorSwatch();
+
     }
 }
