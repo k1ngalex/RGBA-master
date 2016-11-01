@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity implements Observer
         setContentView(R.layout.activity_main);
         mAboutDialog = new AboutDialogFragment();
         mModel = new RGBAModel();
-        mModel.setHue( RGBAModel.MAX_HUE );
-        mModel.setSaturation( RGBAModel.MAX_SAT );
-        mModel.setValue( RGBAModel.MAX_VAL );
+        mModel.setHue( RGBAModel.MIN_POS );
+        mModel.setSaturation( RGBAModel.MIN_POS );
+        mModel.setValue( RGBAModel.MIN_POS );
         mModel.addObserver( this );
         mColorSwatch = (TextView) findViewById( R.id.colorSwatch );
         mHueSB = (SeekBar) findViewById( R.id.redSB );
@@ -181,17 +181,17 @@ public class MainActivity extends AppCompatActivity implements Observer
         switch ( seekBar.getId() ) {
             case R.id.redSB:
                 mModel.setHue( (float) progress );
-                mHueText.setText(getResources().getString(R.string.hue, progress));
+                mHueText.setText(getResources().getString(R.string.hue, progress).toUpperCase());
                 break;
 
             case R.id.greenSB:
-                mModel.setHue( (float) progress );
-                mHueText.setText(getResources().getString(R.string.saturation, progress));
+                mModel.setSaturation( (float) progress );
+                mSatText.setText(getResources().getString(R.string.saturation, progress).toUpperCase());
                 break;
 
             case R.id.blueSB:
-                mModel.setHue( (float) progress );
-                mHueText.setText(getResources().getString(R.string.value, progress));
+                mModel.setValue( (float) progress );
+                mValText.setText(getResources().getString(R.string.value, progress).toUpperCase());
                 break;
         }
     }
